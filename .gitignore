@@ -1,0 +1,3 @@
+todo/todo/__pycache__/
+todo/taskapp/__pycache__/
+*.pyc
