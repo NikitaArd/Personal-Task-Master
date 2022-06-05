@@ -1,0 +1,362 @@
+* {
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  background-image: url("img/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  overflow-x: none;
+}
+
+u {
+  text-decoration: underline;
+}
+
+header {
+  position: absolute;
+  width: 100%;
+  height: 5%;
+  background-color: #2B6C94;
+  opacity: 0.8;
+  z-index: 100;
+}
+
+.btn {
+  background-color: #2B6C94;
+  border: none;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.btn:focus {
+  background-color: #2B6C94;
+  border: none;
+}
+
+.btn:active {
+  background-color: #2B6C94;
+  border: none;
+}
+
+.btn:hover {
+  background-color: #2B6C94;
+  border: none;
+}
+
+.btn-check:active + .btn-secondary, .btn-check:checked + .btn-secondary, .btn-secondary.active, .btn-secondary:active, .show > .btn-secondary.dropdown-toggle {
+  background-color: #2B6C94;
+}
+
+.show > .btn-secondary.dropdown-toggle:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+.dropdown-menu {
+  background-color: #304B74;
+  padding: 10px;
+}
+
+.dropdown-item {
+  margin: 5px;
+}
+
+.dropdown-item:hover {
+  background-color: #304B74;
+}
+
+.dropdown-img {
+  margin-right: 15px;
+}
+
+.inner {
+  width: 65%;
+  height: 100%;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: end;
+}
+
+.titleText {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 43px;
+  color: #DBE6EF;
+  text-align: center;
+}
+
+.text {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 43px;
+  color: #DBE6EF;
+  text-align: center;
+}
+
+.smallText {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  color: #DBE6EF;
+  text-align: center;
+}
+
+.dialogWindow {
+  margin: auto auto;
+  padding: 30px;
+  background-color: #619FAC;
+  opacity: 0.94;
+  border-radius: 20px;
+}
+
+.dialogWindow-email {
+  max-width: 80%;
+  margin: 45px auto 0 auto;
+}
+
+.dialogWindow-password {
+  max-width: 80%;
+  margin: 45px auto 0 auto;
+}
+
+.dialogWindow-input {
+  background-color: #DBE6EF;
+  border-color: #DBE6EF;
+  border-radius: 10px;
+}
+
+.dialogWindow-input:active {
+  background-color: #DBE6EF;
+  border-color: #DBE6EF;
+}
+
+.dialogWindow-input:focus {
+  background-color: #DBE6EF;
+  border-color: #DBE6EF;
+}
+
+.dialogWindow-buttons {
+  margin-top: 45px;
+}
+
+.button {
+  background-color: #304B74;
+  -webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 50px;
+  border: none;
+  font-size: 22px;
+  width: inherit;
+  height: inherit;
+  color: #DBE6EF;
+}
+
+.button-large {
+  margin: auto;
+  width: 130px;
+  height: 55px;
+}
+
+.button-small {
+  margin: auto;
+  width: 105px;
+  height: 45px;
+}
+
+.add-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.add-title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: #304B74;
+  padding: 23px 30px;
+  width: 93%;
+  -webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 10px 0px 0px 10px;
+}
+
+.add-button {
+  background-color: #8AA4BC;
+  padding: 10px;
+  border: none;
+  -webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 0px 10px 10px 0px;
+}
+
+.add-input {
+  background-color: #304B74;
+  border: none;
+  width: 100%;
+  color: white;
+  margin-left: 12px;
+}
+
+.add-input::-webkit-input-placeholder {
+  color: #DBE6EF;
+  font-size: large;
+  opacity: 0.8;
+}
+
+.add-input:-ms-input-placeholder {
+  color: #DBE6EF;
+  font-size: large;
+  opacity: 0.8;
+}
+
+.add-input::-ms-input-placeholder {
+  color: #DBE6EF;
+  font-size: large;
+  opacity: 0.8;
+}
+
+.add-input::placeholder {
+  color: #DBE6EF;
+  font-size: large;
+  opacity: 0.8;
+}
+
+.add-input:focus {
+  outline: none !important;
+}
+
+.devider {
+  margin: 36px auto;
+  width: 95%;
+  height: 3px;
+  background-color: #AEC0D1;
+}
+
+.item {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  background-color: #304B74;
+  padding: 23px 30px 23px 40px;
+  width: 100%;
+  -webkit-box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+          box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin: 22px 0;
+}
+
+.item-done {
+  background-color: #304b74de;
+}
+
+.item-title {
+  font-size: large;
+  color: #DBE6EF;
+}
+
+.item-title-done {
+  text-decoration: line-through;
+  color: #dbe6efdc;
+}
+
+.item-button {
+  width: 27px;
+  height: 27px;
+  border-radius: 8px;
+  border: 3px #8AA4BC solid;
+  background-color: #304B74;
+}
+
+.item-button-done {
+  background-color: #8AA4BC !important;
+}
+
+.login {
+  width: 550px;
+  max-width: 550px;
+  height: 60%;
+  max-height: 60%;
+}
+
+.registration {
+  width: 550px;
+  max-width: 550px;
+  height: 55%;
+  max-height: 55%;
+}
+
+.reset-password {
+  width: 550px;
+  max-width: 550px;
+  height: 43%;
+  max-height: 43%;
+}
+
+.reset-password-done {
+  width: 550px;
+  max-width: 550px;
+  height: 43%;
+  max-height: 43%;
+}
+
+.reset-password-confirm {
+  width: 550px;
+  max-width: 550px;
+  height: 50%;
+  max-height: 50%;
+}
+
+.reset-password-complete {
+  width: 550px;
+  max-width: 550px;
+  height: 32%;
+  max-height: 32%;
+}
+
+.change-password {
+  width: 550px;
+  max-width: 550px;
+  height: 55%;
+  max-height: 55%;
+}
+
+.index {
+  width: 1200px;
+  height: 80%;
+  min-width: 400px;
+  overflow-y: scroll;
+}
+
+.index::-webkit-scrollbar {
+  display: none;
+}
+/*# sourceMappingURL=style.css.map */
