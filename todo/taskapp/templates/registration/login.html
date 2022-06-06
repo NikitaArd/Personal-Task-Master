@@ -1,0 +1,43 @@
+{% extends 'layout/basic.html' %}
+{% load static %}
+
+{% block header %}
+{% endblock header %}
+
+{% block content %}
+
+    <div class="dialogWindow login">
+        <form method="POST">
+            {% csrf_token %}
+        <div class="dialogWindow-title">
+            <h1 id="dialogWindow_title" class="titleText">{{ title }}</h1>
+        </div>
+        <div class="dialogWindow-email">
+            <div class="form-floating mb-3 ">
+                {{ form.email }}
+                <label for="floatingInput" style="text-align: center">Email address</label>
+            </div>
+        </div>
+        <div class="dialogWindow-password">
+            <div class="form-floating">
+                {{ form.password }}
+                <label for="floatingPassword">Password</label>
+            </div>
+            <p class="smallText"><a href="#" style="color: #DBE6EF;">Forgot password ?</a></p>
+        </div>
+
+            <div class="button-large" style="margin-top: 45px">
+                <button class="btn btn-primary button" type="submit">Sign in</button>
+            </div>
+        </form>
+        <h2 class="smallText" style="font-size: 20px!important; margin: 30px 0 30px 0;">Or if you don't have account</h2>
+        <div class="button-small">
+            <button class="btn btn-primary button" type="submit">Sign up</button>
+        </div>
+
+
+    </div>
+
+{% endblock content %}
+
+{% block script %}{% endblock script %}
