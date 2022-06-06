@@ -3,8 +3,10 @@ from django.shortcuts import redirect
 from .forms import LoginForm
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
 
 
+@login_required()
 def index(request):
     context = {'user': request.user}
     return render(request, 'taskapp/index.html', context)
