@@ -18,5 +18,7 @@ class LoginForm(forms.Form):
                                       'required': 'required',
                                       'placeholder': 'Password'}))
 
+    error_css_style = 'is_invalid'
+
     class Meta:
         fields = ['email', 'password']

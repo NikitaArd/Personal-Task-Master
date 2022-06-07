@@ -1,4 +1,5 @@
 {% extends 'layout/basic.html' %}
+{% load widget_tweaks %}
 {% load static %}
 
 {% block header %}
@@ -14,13 +15,21 @@
         </div>
         <div class="dialogWindow-email">
             <div class="form-floating mb-3 ">
-                {{ form.email }}
+                {% if isInvalid == 'email' %}
+                    {% render_field form.email class+="is-invalid" %}
+                {% else %}
+                    {{ form.email }}
+                {% endif %}
                 <label for="floatingInput" style="text-align: center">Email address</label>
             </div>
         </div>
         <div class="dialogWindow-password">
             <div class="form-floating">
-                {{ form.password }}
+                {% if isInvalid == 'password' %}
+                    {% render_field form.password class+="is-invalid" %}
+                {% else %}
+                    {{ form.password }}
+                {% endif %}
                 <label for="floatingPassword">Password</label>
             </div>
             <p class="smallText"><a href="#" style="color: #DBE6EF;">Forgot password ?</a></p>
