@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
-from .forms import LoginForm
+from .forms import (
+    LoginForm,
+    RegistrationForm
+)
 from .models import CustomUser
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
@@ -15,7 +18,6 @@ def index(request):
 
 def CustomLoginView(request):
     ModelFormset = LoginForm
-    context = {}
     if not request.user.is_authenticated:
         if request.method == 'POST':
             form = ModelFormset(request.POST)
@@ -26,7 +28,7 @@ def CustomLoginView(request):
                     user = authenticate(email=emailReq, password=passwordReq)
                     if user is not None:
                         login(request, user)
-                        return redirect('/')
+                        return redirect('taskapp:index')
                     else:
                         context = {
                             'form': form,
@@ -43,7 +45,7 @@ def CustomLoginView(request):
                 context = {
                     'form': form,
                     'title': 'Incorrect e-mail',
-                    'isInvalid': '',
+                    'isInvalid': 'email',
                 }
             return render(request, 'registration/login.html', context)
         else:
@@ -54,4 +56,37 @@ def CustomLoginView(request):
             }
             return render(request, 'registration/login.html', context)
     else:
-        return redirect('/')
+        return redirect('taskapp:index')
+
+
+def CustomRegistrationView(request):
+
+    ModelFormset = RegistrationForm
+
+    if not request.user.is_authenticated:
+        if request.method == 'POST':
+            form = ModelFormset(request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('taskapp:login')
+            else:
+                keys = [key for key in form.errors.as_data()]
+                errorMessages = []
+                for fields in form.errors:
+                    errorMessages.append(form.errors[fields])
+                context = {
+                    'form': form,
+                    'title': errorMessages[0][0],
+                    'isInvalid': keys[0],
+                }
+                return render(request, 'registration/registration.html', context)
+        else:
+            context = {
+                'form': ModelFormset,
+                'title': 'Registration',
+                'isInvalid': '',
+            }
+            return render(request, 'registration/registration.html', context)
+    else:
+        return redirect('taskapp:index')
+
