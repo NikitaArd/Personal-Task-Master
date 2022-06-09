@@ -39,7 +39,12 @@ def CustomLoginView(request):
                         'title': 'Wrong e-mail',
                         'isInvalid': 'email',
                     }
-
+            else:
+                context = {
+                    'form': form,
+                    'title': 'Incorrect e-mail',
+                    'isInvalid': '',
+                }
             return render(request, 'registration/login.html', context)
         else:
             context = {
