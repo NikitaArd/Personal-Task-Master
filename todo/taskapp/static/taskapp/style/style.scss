@@ -271,50 +271,36 @@ header {
 .login {
     width: 550px;
     max-width: 550px;
-    height: 60%;
-    max-height: 60%;
 }
 
 .registration {
     width: 550px;
     max-width: 550px;
-    height: 55%;
-    max-height: 55%;
 }
 
 .reset-password{
     width: 550px;
     max-width: 550px;
-    height: 43%;
-    max-height: 43%;
 }
 
 .reset-password-done{
     width: 550px;
     max-width: 550px;
-    height: 43%;
-    max-height: 43%;
 }
 
 .reset-password-confirm{
     width: 550px;
     max-width: 550px;
-    height: 50%;
-    max-height: 50%;
 }
 
 .reset-password-complete{
     width: 550px;
     max-width: 550px;
-    height: 32%;
-    max-height: 32%;
 }
 
 .change-password{
     width: 550px;
     max-width: 550px;
-    height: 55%;
-    max-height: 55%;
 }
 
 .index{
@@ -327,25 +313,6 @@ header {
     }
 }
 
-@for $i from 1 through 5 {
-    &:hover > .nav__menu--2-lists li:nth-child(#{$i}) {
-      opacity: 0;
-      transform: translateY(-100%);
-      animation: menu2 ease-in-out forwards;
-      animation-duration: $menu2AnimSpeed;
-      animation-delay: ($menu2AnimSpeed / 1.2) * ($i - 1);
-      @keyframes menu2 {
-        0% {
-          opacity: 0;
-          transform: translateY(-100%) scale(.3);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
-      }
-    }
-  }
 
   
 
