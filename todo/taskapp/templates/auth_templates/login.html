@@ -32,7 +32,7 @@
                 {% endif %}
                 <label for="floatingPassword">Password</label>
             </div>
-            <p class="smallText"><a href="#" style="color: #DBE6EF;">Forgot password ?</a></p>
+            <p class="smallText"><a href="{% url 'password_reset' %}" style="color: #DBE6EF;">Forgot password ?</a></p>
         </div>
 
             <div class="button-large" style="margin-top: 45px">
@@ -41,7 +41,7 @@
         </form>
         <h2 class="smallText" style="font-size: 20px!important; margin: 30px 0 30px 0;">Or if you don't have account</h2>
         <div class="button-small">
-            <button class="btn btn-primary button" type="submit" onclick="location.href='{% url 'taskapp:registration' %}'">Sign up</button>
+            <button class="btn btn-primary button" type="submit" onclick="location.href='{% url 'registration' %}'">Sign up</button>
         </div>
 
 

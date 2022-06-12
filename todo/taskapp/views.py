@@ -3,13 +3,15 @@ from django.shortcuts import redirect
 from .forms import (
     LoginForm,
     RegistrationForm,
-    CustomPasswordChangeForm
+    CustomPasswordChangeForm,
+    CustomSetPasswordForm,
 )
 from .models import CustomUser
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordResetConfirmView
 
 
 @login_required()
@@ -50,7 +52,7 @@ def CustomLoginView(request):
                     user = authenticate(email=emailReq, password=passwordReq)
                     if user is not None:
                         login(request, user)
-                        return redirect('taskapp:index')
+                        return redirect('index')
                     else:
                         context = {
                             'form': form,
@@ -78,7 +80,7 @@ def CustomLoginView(request):
             }
             return render(request, 'auth_templates/login.html', context)
     else:
-        return redirect('taskapp:index')
+        return redirect('index')
 
 
 def CustomRegistrationView(request):
@@ -89,7 +91,7 @@ def CustomRegistrationView(request):
             form = ModelFormset(request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('taskapp:login')
+                return redirect('login')
             else:
                 keys = [key for key in form.errors.as_data()]
                 errorMessages = []
@@ -109,4 +111,23 @@ def CustomRegistrationView(request):
             }
             return render(request, 'auth_templates/registration.html', context)
     else:
-        return redirect('taskapp:index')
+        return redirect('index')
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'auth_templates/reset_password_confirm.html'
+    form_class = CustomSetPasswordForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        if self.request.method == 'POST':
+            keys = [key for key in context['form'].errors.as_data()]
+            errorMessages = []
+            for fields in context['form'].errors:
+                errorMessages.append(context['form'].errors[fields])
+
+            context['title'] = errorMessages[0][0]
+            context['isInvalid'] = keys[0]
+
+        return context

@@ -2,6 +2,8 @@ from django.contrib.auth.forms import forms
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.forms import SetPasswordForm
 from .models import CustomUser
 
 
@@ -54,7 +56,6 @@ class RegistrationForm(UserCreationForm):
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
-
     old_password = forms.CharField(widget=forms.PasswordInput(
         attrs={'type': 'password',
                'class': 'form-control dialogWindow-input',
@@ -77,3 +78,34 @@ class CustomPasswordChangeForm(PasswordChangeForm):
     class Meta:
         model = CustomUser
         fields = ['old_password', 'new_password1', 'new_password2']
+
+
+class CustomPasswordResetForm(PasswordResetForm):
+    email = forms.EmailField(label='E-mail')
+    email.widget.attrs.update({'type': 'email',
+                               'class': 'form-control dialogWindow-input',
+                               'id': 'floatingInput',
+                               'required': 'required',
+                               'placeholder': 'name@example.com'})
+
+    class Meta:
+        fields = ['email']
+
+
+class CustomSetPasswordForm(SetPasswordForm):
+
+    new_password1 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'type': 'password',
+               'class': 'form-control dialogWindow-input',
+               'id': 'floatingPassword',
+               'required': 'required',
+               'placeholder': 'PasswordNew1'}))
+    new_password2 = forms.CharField(widget=forms.PasswordInput(
+        attrs={'type': 'password',
+               'class': 'form-control dialogWindow-input',
+               'id': 'floatingPassword',
+               'required': 'required',
+               'placeholder': 'PasswordNew2'}))
+
+    class Meta:
+        fields = ['new_password1', 'new_password2']

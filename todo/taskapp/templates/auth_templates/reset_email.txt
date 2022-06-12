@@ -1,0 +1,5 @@
+{% autoescape off %}
+Dear {{ user.email }}
+Follow this link to reset your password.
+{{ protocol }}://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+{% endautoescape %}
