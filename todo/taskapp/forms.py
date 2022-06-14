@@ -118,6 +118,7 @@ class TaskAddForm(ModelForm):
         'type': 'text',
         'placeholder': 'Entere there your plan',
         'class': 'add-input',
+        'id': 'add_title',
     })
 
     class Meta:

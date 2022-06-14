@@ -24,21 +24,24 @@
 {% block content %}
 <div class="dialogWindow index dropend">
     <form id="add_form" class="add-form">
+        {% csrf_token %}
         <div class="add-title">
             <img src="{% static 'taskapp/style/img/line.svg' %}">
             {{ form.title }}
         </div>
-        <button type="submit" class="add-button">
+        <button type="submit" class="add-button" id="add_button">
             <img src="{% static 'taskapp/style/img/add.svg' %}" alt="Add">
         </button>
     </form>
     <div class="devider"></div>
-    {% for task in tasks %}
-    <div class="item">
-        <p class="item-title">{{ task.title }}</p>
-        <button type="submit" class="item-button"></button>
+    <div id="tasks">
+        {% for task in tasks %}
+        <div class="item">
+            <p class="item-title">{{ task.title }}</p>
+            <button type="submit" class="item-button" id='doneFlag' value="{% url 'ajax_update' task.pk %}"></button>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
     <div class="devider"></div>
     {% for taskDone in tasksDone %}
     <div class="item item-done">
@@ -50,7 +53,37 @@
 {% endblock content %}
 
 {% block script %}
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<script>
+    $('#add_form').submit(function (e) {
+        e.preventDefault();
+
+        var serData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "ajax_create" %}',
+            data: serData,
+
+            success: function (response){
+                $('#add_form').trigger('reset')
+
+                var formData = JSON.parse(response['formData'])
+                var fields = formData[0]['fields']
+                var pk = formData[0]['pk']
+                $('#tasks').prepend(`
+                <div class="item">
+                    <p class="item-title">${fields['title']}</p>
+                    <button type="submit" class="item-button" value='/taskapp/ajax/update/${pk}'></button>
+                </div>
+                `)
+            },
+            error: function (response){
+                alert('Error')
+            }
+        })
+    })
+</script>
 {% endblock script %}

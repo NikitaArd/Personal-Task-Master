@@ -13,6 +13,8 @@ from .views import CustomLoginView
 from .views import CustomRegistrationView
 from .views import CustomPasswordChangeView
 from .views import CustomPasswordResetConfirmView
+from .views import AjaxCreateView
+from .views import AjaxUpdateView
 
 from .forms import CustomPasswordResetForm
 from .forms import CustomSetPasswordForm
@@ -35,4 +37,6 @@ urlpatterns = [
     path('accounts/reset/complete/', PasswordResetCompleteView.as_view(
         template_name='auth_templates/reset_password_complete.html',
     ), name='password_reset_complete'),
+    path('taskapp/ajax/create/', AjaxCreateView, name='ajax_create'),
+    path('taskapp/ajax/update/<int:pk>', AjaxUpdateView, name='ajax_update')
 ]

@@ -15,6 +15,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import PasswordResetConfirmView
 from .decorators import anonymous_required
+from .decorators import is_ajax_request
+from django.http import JsonResponse
+from django.core import serializers
 
 
 @login_required
@@ -138,3 +141,21 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
             context['isInvalid'] = keys[0]
 
         return context
+
+
+@is_ajax_request
+def AjaxCreateView(request):
+    form = TaskAddForm(request.POST)
+    if form.is_valid():
+        response = form.save(commit=False)
+        response.byUser = request.user
+        response.save()
+        formData = response
+        ser_formData = serializers.serialize('json', [formData, ])
+        return JsonResponse({'formData': ser_formData}, status=200)
+    else:
+        return JsonResponse({'error': form.errors}, status=400)
+
+
+def AjaxUpdateView(request):
+    pass
