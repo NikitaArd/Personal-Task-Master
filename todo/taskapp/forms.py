@@ -5,6 +5,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.forms import SetPasswordForm
 from .models import CustomUser
+from .models import Task
 
 
 class LoginForm(forms.Form):
@@ -109,3 +110,16 @@ class CustomSetPasswordForm(SetPasswordForm):
 
     class Meta:
         fields = ['new_password1', 'new_password2']
+
+
+class TaskAddForm(ModelForm):
+    title = forms.CharField(max_length=400)
+    title.widget.attrs.update({
+        'type': 'text',
+        'placeholder': 'Entere there your plan',
+        'class': 'add-input',
+    })
+
+    class Meta:
+        model = Task
+        fields = ['title']

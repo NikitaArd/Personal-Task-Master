@@ -5,8 +5,10 @@ from .forms import (
     RegistrationForm,
     CustomPasswordChangeForm,
     CustomSetPasswordForm,
+    TaskAddForm,
 )
 from .models import CustomUser
+from .models import Task
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
@@ -17,7 +19,14 @@ from .decorators import anonymous_required
 
 @login_required
 def index(request):
-    context = {'user': request.user}
+    byUserTasks = Task.objects.filter(byUser=request.user, doneStatus=False)
+    byUserTasksDone = Task.objects.filter(byUser=request.user, doneStatus=True)
+    context = {
+        'form': TaskAddForm,
+        'tasks': byUserTasks,
+        'tasksDone': byUserTasksDone,
+        'user': request.user,
+    }
     return render(request, 'taskapp/index.html', context)
 
 
@@ -111,6 +120,7 @@ def CustomRegistrationView(request):
         return render(request, 'auth_templates/registration.html', context)
 
 
+# anonymous required there https://docs.djangoproject.com/en/4.0/topics/auth/default/#django.contrib.auth.mixins.UserPassesTestMixin
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     template_name = 'auth_templates/reset_password_confirm.html'
     form_class = CustomSetPasswordForm

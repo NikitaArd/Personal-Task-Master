@@ -60,6 +60,8 @@ class Task(models.Model):
     date = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Time and Data')
     byUser = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='By')
 
+    objects = None
+
     class Meta:
         verbose_name = 'Task'
         verbose_name_plural = 'Tasks'
