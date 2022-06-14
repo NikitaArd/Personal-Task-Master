@@ -12,9 +12,10 @@ from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import PasswordResetConfirmView
+from .decorators import anonymous_required
 
 
-@login_required()
+@login_required
 def index(request):
     context = {'user': request.user}
     return render(request, 'taskapp/index.html', context)
@@ -40,78 +41,74 @@ class CustomPasswordChangeView(PasswordChangeView):
         return context
 
 
+@anonymous_required('index')
 def CustomLoginView(request):
     ModelFormset = LoginForm
-    if not request.user.is_authenticated:
-        if request.method == 'POST':
-            form = ModelFormset(request.POST)
-            if form.is_valid():
-                emailReq = form.cleaned_data['email']
-                passwordReq = form.cleaned_data['password']
-                if CustomUser.objects.filter(email=emailReq).exists():
-                    user = authenticate(email=emailReq, password=passwordReq)
-                    if user is not None:
-                        login(request, user)
-                        return redirect('index')
-                    else:
-                        context = {
-                            'form': form,
-                            'title': 'Wrong password',
-                            'isInvalid': 'password',
-                        }
+    if request.method == 'POST':
+        form = ModelFormset(request.POST)
+        if form.is_valid():
+            emailReq = form.cleaned_data['email']
+            passwordReq = form.cleaned_data['password']
+            if CustomUser.objects.filter(email=emailReq).exists():
+                user = authenticate(email=emailReq, password=passwordReq)
+                if user is not None:
+                    login(request, user)
+                    return redirect('index')
                 else:
                     context = {
                         'form': form,
-                        'title': 'Wrong e-mail',
-                        'isInvalid': 'email',
+                        'title': 'Wrong password',
+                        'isInvalid': 'password',
                     }
             else:
                 context = {
                     'form': form,
-                    'title': 'Incorrect e-mail',
+                    'title': 'Wrong e-mail',
                     'isInvalid': 'email',
                 }
-            return render(request, 'auth_templates/login.html', context)
         else:
             context = {
-                'form': ModelFormset,
-                'title': 'Login',
-                'isInvalid': '',
+                'form': form,
+                'title': 'Incorrect e-mail',
+                'isInvalid': 'email',
             }
-            return render(request, 'auth_templates/login.html', context)
+        return render(request, 'auth_templates/login.html', context)
     else:
-        return redirect('index')
+        context = {
+            'form': ModelFormset,
+            'title': 'Login',
+            'isInvalid': '',
+        }
+        return render(request, 'auth_templates/login.html', context)
 
 
+@anonymous_required('index')
 def CustomRegistrationView(request):
     ModelFormset = RegistrationForm
 
-    if not request.user.is_authenticated:
-        if request.method == 'POST':
-            form = ModelFormset(request.POST)
-            if form.is_valid():
-                form.save()
-                return redirect('login')
-            else:
-                keys = [key for key in form.errors.as_data()]
-                errorMessages = []
-                for fields in form.errors:
-                    errorMessages.append(form.errors[fields])
-                context = {
-                    'form': form,
-                    'title': errorMessages[0][0],
-                    'isInvalid': keys[0],
-                }
-                return render(request, 'auth_templates/registration.html', context)
+    if request.method == 'POST':
+        form = ModelFormset(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
         else:
+            keys = [key for key in form.errors.as_data()]
+            errorMessages = []
+            for fields in form.errors:
+                errorMessages.append(form.errors[fields])
             context = {
-                'form': ModelFormset,
-                'title': 'Registration',
-                'isInvalid': '',
+                'form': form,
+                'title': errorMessages[0][0],
+                'isInvalid': keys[0],
             }
             return render(request, 'auth_templates/registration.html', context)
     else:
-        return redirect('index')
+        context = {
+            'form': ModelFormset,
+            'title': 'Registration',
+            'isInvalid': '',
+        }
+        return render(request, 'auth_templates/registration.html', context)
 
 
 class CustomPasswordResetConfirmView(PasswordResetConfirmView):
