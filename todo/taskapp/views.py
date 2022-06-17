@@ -19,6 +19,8 @@ from .decorators import is_ajax_request
 from django.http import JsonResponse
 from django.core import serializers
 
+import datetime
+
 
 @login_required
 def index(request):
@@ -157,5 +159,10 @@ def AjaxCreateView(request):
         return JsonResponse({'error': form.errors}, status=400)
 
 
-def AjaxUpdateView(request):
-    pass
+def AjaxUpdateView(request, pk):
+    task = Task.objects.get(pk=pk)
+    task.doneStatus = True
+    task.date = datetime.datetime.now()
+    task.save()
+    ser_response = serializers.serialize('json', [task, ])
+    return JsonResponse({'task': ser_response}, status=200)

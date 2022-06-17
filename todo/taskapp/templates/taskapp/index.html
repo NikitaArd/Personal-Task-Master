@@ -33,22 +33,29 @@
             <img src="{% static 'taskapp/style/img/add.svg' %}" alt="Add">
         </button>
     </form>
-    <div class="devider"></div>
+    {% if tasks %}
+        <div class="devider"></div>
+    {% endif %}
     <div id="tasks">
         {% for task in tasks %}
-        <div class="item">
+        <div class="item" id="{% url 'ajax_update' task.pk %}">
             <p class="item-title">{{ task.title }}</p>
-            <button type="submit" class="item-button" id='doneFlag' value="{% url 'ajax_update' task.pk %}"></button>
+            <button type="submit" class="item-button" value="{% url 'ajax_update' task.pk %}"></button>
         </div>
         {% endfor %}
     </div>
-    <div class="devider"></div>
-    {% for taskDone in tasksDone %}
-    <div class="item item-done">
-        <p class="item-title item-title-done">{{ taskDone.title }}</p>
-        <button type="submit" class="item-button item-button-done"></button>
+    {% if tasksDone %}
+        <div class="devider"></div>
+    {% endif %}
+    
+    <div id="tasksDone">
+        {% for taskDone in tasksDone %}
+        <div class="item item-done">
+            <p class="item-title item-title-done">{{ taskDone.title }}</p>
+            <button type="submit" class="item-button item-button-done"></button>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock content %}
 
@@ -83,6 +90,34 @@
             error: function (response){
                 alert('Error')
             }
+        })
+    })
+
+    $('.item-button').click(function (e) {
+        e.preventDefault();
+        const elem = $('.item')
+
+        console.log(elem.querySelectorAll('item-button'))
+
+        $.ajax({
+            type: 'GET',
+            url: $(this).val(),
+
+            success: function(response){
+                var task = JSON.parse(response['task']);
+                var fields = task[0]['fields'];
+
+
+                $('#tasksDone').prepend(`
+                    <div class="item item-done">
+                        <p class="item-title item-title-done">${fields['title']}</p>
+                        <button type="submit" class="item-button item-button-done"></button>
+                    </div>
+                `)
+            },
+            error: function(response){
+                console.log('All bad');
+            },
         })
     })
 </script>
