@@ -38,9 +38,9 @@
     {% endif %}
     <div id="tasks">
         {% for task in tasks %}
-        <div class="item" id="{% url 'ajax_update' task.pk %}">
+        <div class="item" id="{{ task.pk }}">
             <p class="item-title">{{ task.title }}</p>
-            <button type="submit" class="item-button" value="{% url 'ajax_update' task.pk %}"></button>
+            <button type="submit" class="item-button" value="{{ task.pk }}"></button>
         </div>
         {% endfor %}
     </div>
@@ -50,9 +50,9 @@
     
     <div id="tasksDone">
         {% for taskDone in tasksDone %}
-        <div class="item item-done">
+        <div class="item item-done" id="{{ taskDone.pk }}">
             <p class="item-title item-title-done">{{ taskDone.title }}</p>
-            <button type="submit" class="item-button item-button-done"></button>
+            <button type="submit" class="item-button item-button-done" value="{{ taskDone.pk }}"></button>
         </div>
         {% endfor %}
     </div>
@@ -81,16 +81,76 @@
                 var fields = formData[0]['fields']
                 var pk = formData[0]['pk']
                 $('#tasks').prepend(`
-                <div class="item">
+                <div class="item" id='${pk}'>
                     <p class="item-title">${fields['title']}</p>
-                    <button type="submit" class="item-button" value='/taskapp/ajax/update/${pk}'></button>
+                    <button type="submit" class="item-button" value='${pk}'></button>
                 </div>
                 `)
+                // var tasks = document.getElementById('tasks');
+                // tasks.insertAdjacentHTML('afterbegin', `
+                // <div class="item" id='${pk}'>
+                //     <p class="item-title">${fields['title']}</p>
+                //     <button type="submit" class="item-button" value='${pk}'></button>
+                // </div>
+                // `)
             },
             error: function (response){
                 alert('Error')
             }
         })
+    })
+
+    $('.item-button').click(function(e) {
+        e.preventDefault();
+
+        if(this.classList.contains('item-button-done')){
+            var data = {
+                'doneFlag': 0,
+            };
+        }else{
+            var data = {
+                'doneFlag': 1,
+            }
+        }
+        var pk = $(this).val();
+
+        var url = '/taskapp/ajax/update/' + pk;
+
+        this.parentElement.remove()
+        
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            data: data,
+
+            success: function (response){
+
+                var task = JSON.parse(response['task']);
+                var fields = task[0]['fields'];
+                var pk = task[0]['pk'];
+                if(fields['doneStatus']){
+                    $('#tasksDone').prepend(`
+                    <div class="item item-done" id="${pk}">
+                        <p class="item-title item-title-done">${fields['title']}</p>
+                        <button type="submit" class="item-button item-button-done" value="${pk}"></button>
+                    </div>
+                `)
+                }else{
+                    $('#tasks').prepend(`
+                <div class="item" id='${pk}'>
+                    <p class="item-title">${fields['title']}</p>
+                    <button type="submit" class="item-button" value='${pk}'></button>
+                </div>
+                `)
+                }
+                
+            },
+            error: function (response) {
+                alert('Error');
+            }
+        })
+        
     })
 </script>
 {% endblock script %}

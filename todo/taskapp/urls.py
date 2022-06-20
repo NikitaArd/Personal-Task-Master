@@ -38,5 +38,5 @@ urlpatterns = [
         template_name='auth_templates/reset_password_complete.html',
     ), name='password_reset_complete'),
     path('taskapp/ajax/create/', AjaxCreateView, name='ajax_create'),
-    path('taskapp/ajax/update/<int:pk>', AjaxUpdateView, name='ajax_update')
+    path('taskapp/ajax/update/<int:pk>/', AjaxUpdateView, name='ajax_update'),
 ]

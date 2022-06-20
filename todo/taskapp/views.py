@@ -21,6 +21,8 @@ from django.core import serializers
 
 import datetime
 
+from django.utils import timezone
+
 
 @login_required
 def index(request):
@@ -160,4 +162,12 @@ def AjaxCreateView(request):
 
 
 def AjaxUpdateView(request, pk):
-    pass
+    task = Task.objects.get(pk=pk)
+    if task.byUser == request.user:
+        task.doneStatus = bool(int(request.GET.get('doneFlag')))
+        task.date = datetime.datetime.now(tz=timezone.utc)
+        task.save()
+        ser_response = serializers.serialize('json', [task, ])
+        return JsonResponse({'task': ser_response}, status=200)
+    else:
+        return JsonResponse({}, status=400)
