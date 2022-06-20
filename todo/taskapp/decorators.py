@@ -14,11 +14,15 @@ def anonymous_required(redirect_field_name):
     return actual_decorator
 
 
-def is_ajax_request(func, *args, **kwargs):
-    def wrapper(request):
-        if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == 'POST':
-            return func(request, *args, **kwargs)
+def is_ajax_request(method):
+    def actual_decorator(func, *args, **kwargs):
+        def wrapper(request):
+            if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest' and request.method == method:
+                return func(request, *args, **kwargs)
 
-        return JsonResponse({'error': ""}, status=400)
+            return JsonResponse({'error': ""}, status=400)
 
-    return wrapper
+        return wrapper
+
+    return actual_decorator
+

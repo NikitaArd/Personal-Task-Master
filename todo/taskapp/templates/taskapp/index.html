@@ -92,33 +92,5 @@
             }
         })
     })
-
-    $('.item-button').click(function (e) {
-        e.preventDefault();
-        const elem = $('.item')
-
-        console.log(elem.querySelectorAll('item-button'))
-
-        $.ajax({
-            type: 'GET',
-            url: $(this).val(),
-
-            success: function(response){
-                var task = JSON.parse(response['task']);
-                var fields = task[0]['fields'];
-
-
-                $('#tasksDone').prepend(`
-                    <div class="item item-done">
-                        <p class="item-title item-title-done">${fields['title']}</p>
-                        <button type="submit" class="item-button item-button-done"></button>
-                    </div>
-                `)
-            },
-            error: function(response){
-                console.log('All bad');
-            },
-        })
-    })
 </script>
 {% endblock script %}

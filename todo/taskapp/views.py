@@ -145,7 +145,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
         return context
 
 
-@is_ajax_request
+@is_ajax_request(method='POST')
 def AjaxCreateView(request):
     form = TaskAddForm(request.POST)
     if form.is_valid():
@@ -160,9 +160,4 @@ def AjaxCreateView(request):
 
 
 def AjaxUpdateView(request, pk):
-    task = Task.objects.get(pk=pk)
-    task.doneStatus = True
-    task.date = datetime.datetime.now()
-    task.save()
-    ser_response = serializers.serialize('json', [task, ])
-    return JsonResponse({'task': ser_response}, status=200)
+    pass
