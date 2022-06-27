@@ -4,7 +4,7 @@ $('#add_form').submit(function (e) {
     var serData = $(this).serialize();
     $.ajax({
         type: 'POST',
-        url: '{% url "ajax_create" %}',
+        url: 'taskapp/ajax/create/',
         data: serData,
 
         success: function (response) {
@@ -19,6 +19,7 @@ $('#add_form').submit(function (e) {
                 <button type="submit" class="item-button" value='${pk}'></button>
             </div>
             `)
+            devider();
             // var tasks = document.getElementById('tasks');
             // tasks.insertAdjacentHTML('afterbegin', `
             // <div class="item" id='${pk}'>
