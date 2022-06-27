@@ -25,4 +25,3 @@ def is_ajax_request(method):
         return wrapper
 
     return actual_decorator
-

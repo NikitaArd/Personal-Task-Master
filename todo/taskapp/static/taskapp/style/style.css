@@ -345,4 +345,12 @@ header {
 .index::-webkit-scrollbar {
   display: none;
 }
+
+.disp-none {
+  display: none !important;
+}
+
+.disp {
+  display: block !important;
+}
 /*# sourceMappingURL=style.css.map */

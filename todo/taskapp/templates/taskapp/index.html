@@ -8,13 +8,17 @@
     <div class="inner">
         <h2 class="text">Hello, {{ user.email }}</h2>
         <div class="btn-group dropright">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
             </button>
             <div class="dropdown-menu">
-                <a class="dropdown-item smallText" href="{% url 'logout' %}"><img src="{% static 'taskapp/style/img/logout.svg' %}" class="dropdown-img">Logout</a>
-                <a class="dropdown-item smallText" href="{% url 'password_change' %}"><img src="{% static 'taskapp/style/img/change.svg' %}" class="dropdown-img">Change password</a>
+                <a class="dropdown-item smallText" href="{% url 'logout' %}"><img
+                        src="{% static 'taskapp/style/img/logout.svg' %}" class="dropdown-img">Logout</a>
+                <a class="dropdown-item smallText" href="{% url 'password_change' %}"><img
+                        src="{% static 'taskapp/style/img/change.svg' %}" class="dropdown-img">Change password</a>
                 <hr class="dropdown-divider">
-                <a class="dropdown-item smallText" href="#"><img src="{% static 'taskapp/style/img/github.svg' %}" class="dropdown-img">Repo of project</a>
+                <a class="dropdown-item smallText" href="#"><img src="{% static 'taskapp/style/img/github.svg' %}"
+                        class="dropdown-img">Repo of project</a>
             </div>
         </div>
     </div>
@@ -33,9 +37,7 @@
             <img src="{% static 'taskapp/style/img/add.svg' %}" alt="Add">
         </button>
     </form>
-    {% if tasks %}
-        <div class="devider"></div>
-    {% endif %}
+    <div class="devider disp-none" id="first"></div>
     <div id="tasks">
         {% for task in tasks %}
         <div class="item" id="{{ task.pk }}">
@@ -44,10 +46,8 @@
         </div>
         {% endfor %}
     </div>
-    {% if tasksDone %}
-        <div class="devider"></div>
-    {% endif %}
-    
+    <div class="devider disp-none" id="second"></div>
+
     <div id="tasksDone">
         {% for taskDone in tasksDone %}
         <div class="item item-done" id="{{ taskDone.pk }}">
@@ -60,97 +60,15 @@
 {% endblock content %}
 
 {% block script %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
 
-<script>
-    $('#add_form').submit(function (e) {
-        e.preventDefault();
-
-        var serData = $(this).serialize();
-        $.ajax({
-            type: 'POST',
-            url: '{% url "ajax_create" %}',
-            data: serData,
-
-            success: function (response){
-                $('#add_form').trigger('reset')
-
-                var formData = JSON.parse(response['formData'])
-                var fields = formData[0]['fields']
-                var pk = formData[0]['pk']
-                $('#tasks').prepend(`
-                <div class="item" id='${pk}'>
-                    <p class="item-title">${fields['title']}</p>
-                    <button type="submit" class="item-button" value='${pk}'></button>
-                </div>
-                `)
-                // var tasks = document.getElementById('tasks');
-                // tasks.insertAdjacentHTML('afterbegin', `
-                // <div class="item" id='${pk}'>
-                //     <p class="item-title">${fields['title']}</p>
-                //     <button type="submit" class="item-button" value='${pk}'></button>
-                // </div>
-                // `)
-            },
-            error: function (response){
-                alert('Error')
-            }
-        })
-    })
-
-    $('.item-button').click(function(e) {
-        e.preventDefault();
-
-        if(this.classList.contains('item-button-done')){
-            var data = {
-                'doneFlag': 0,
-            };
-        }else{
-            var data = {
-                'doneFlag': 1,
-            }
-        }
-        var pk = $(this).val();
-
-        var url = '/taskapp/ajax/update/' + pk;
-
-        this.parentElement.remove()
-        
-
-        $.ajax({
-            type: 'GET',
-            url: url,
-            data: data,
-
-            success: function (response){
-
-                var task = JSON.parse(response['task']);
-                var fields = task[0]['fields'];
-                var pk = task[0]['pk'];
-                if(fields['doneStatus']){
-                    $('#tasksDone').prepend(`
-                    <div class="item item-done" id="${pk}">
-                        <p class="item-title item-title-done">${fields['title']}</p>
-                        <button type="submit" class="item-button item-button-done" value="${pk}"></button>
-                    </div>
-                `)
-                }else{
-                    $('#tasks').prepend(`
-                <div class="item" id='${pk}'>
-                    <p class="item-title">${fields['title']}</p>
-                    <button type="submit" class="item-button" value='${pk}'></button>
-                </div>
-                `)
-                }
-                
-            },
-            error: function (response) {
-                alert('Error');
-            }
-        })
-        
-    })
-</script>
+<script src="{% static 'taskapp/scripts/scripts.js'%}"></script>
 {% endblock script %}
