@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.base_user import BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django.db.models import ObjectDoesNotExist
 
 
 # Code from https://tech.serhatteker.com/post/2020-01/email-as-username-django/

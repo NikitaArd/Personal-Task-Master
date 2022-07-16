@@ -43,8 +43,8 @@
         <div class="item" id="{{ task.pk }}">
             <p class="item-title">{{ task.title }}</p>
             <div class="item-interaction">
-                <img src="{% static 'taskapp/style/img/trash.svg' %}" class="item-trash">
-                <button type="submit" class="item-button" value="{{ task.pk }}"></button>
+                <button type="submit" class="item-delete" id="delete-button" value="{{ task.pk }}"></button>
+                <button type="submit" class="item-update" id="update-button" value="{{ task.pk }}"></button>
             </div>
         </div>
         {% endfor %}
@@ -55,7 +55,10 @@
         {% for taskDone in tasksDone %}
         <div class="item item-done" id="{{ taskDone.pk }}">
             <p class="item-title item-title-done">{{ taskDone.title }}</p>
-            <button type="submit" class="item-button item-button-done" value="{{ taskDone.pk }}"></button>
+            <div class="item-interaction">
+                <button type="submit" class="item-delete" id="delete-button" value="{{ taskDone.pk }}"></button>
+                <button type="submit" class="item-update item-update-done" id="update-button" value="{{ taskDone.pk }}"></button>
+            </div>
         </div>
         {% endfor %}
     </div>

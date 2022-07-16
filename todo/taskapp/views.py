@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
+
 from .forms import (
     LoginForm,
     RegistrationForm,
@@ -9,19 +10,29 @@ from .forms import (
 )
 from .models import CustomUser
 from .models import Task
+
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
+
+
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.views import PasswordResetConfirmView
+
+from django.contrib.auth.decorators import login_required
+
 from .decorators import anonymous_required
 from .decorators import is_ajax_request
-from django.http import JsonResponse
-from django.core import serializers
 
-import datetime
+from django.http import JsonResponse
+
+from django.core import serializers
+from django.core.exceptions import  ObjectDoesNotExist
+
+from django.db.models import ProtectedError
 
 from django.utils import timezone
+
+import datetime
 
 
 @login_required
@@ -171,3 +182,17 @@ def AjaxUpdateView(request, pk):
         return JsonResponse({'task': ser_response}, status=200)
     else:
         return JsonResponse({}, status=400)
+
+
+def AjaxDeleteView(request, pk):
+    try:
+        task = Task.objects.get(pk=pk)
+        if task.byUser == request.user:
+            task.delete()
+            return JsonResponse({}, status=200)
+        else:
+            return redirect('index')
+    except ProtectedError:
+        return JsonResponse({}, status=400)
+    except ObjectDoesNotExist:
+        return redirect('index')

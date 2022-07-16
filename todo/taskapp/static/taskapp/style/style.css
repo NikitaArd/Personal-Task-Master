@@ -288,7 +288,7 @@ header {
   color: #dbe6efdc;
 }
 
-.item-button {
+.item-update {
   width: 27px;
   height: 27px;
   border-radius: 8px;
@@ -296,13 +296,18 @@ header {
   background-color: #304B74;
 }
 
-.item-button-done {
+.item-update-done {
   background-color: #8AA4BC !important;
 }
 
-.item-trash {
+.item-delete {
   width: 29px;
   height: 29px;
+  background-image: url("img/trash.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
   opacity: 0;
   -webkit-transition: 0.3s;
   transition: 0.3s;
@@ -318,7 +323,7 @@ header {
           justify-content: space-between;
 }
 
-.item:hover .item-trash {
+.item:hover .item-delete {
   opacity: 1;
 }
 

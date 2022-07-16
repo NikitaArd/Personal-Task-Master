@@ -255,20 +255,25 @@ header {
         text-decoration: line-through;
         color: $textDoneColor;
     }
-    &-button{
+    &-update{
         width: 27px;
         height: 27px;
         border-radius: 8px;
         border: 3px $addButtonColor solid;
         background-color: $itemColor; 
     }
-    &-button-done{
+    &-update-done{
         background-color: $addButtonColor !important;
     }
 
-    &-trash {
+    &-delete {
         width: 29px;
         height: 29px;
+        background-image: url('img/trash.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        border: none;
+        background-color: rgba(0, 0, 0, 0);
         opacity: 0;
         transition: 0.3s;
     }
@@ -282,7 +287,7 @@ header {
 }
 
 .item:hover{
-    .item-trash{
+    .item-delete{
         opacity: 1;
     }
 }

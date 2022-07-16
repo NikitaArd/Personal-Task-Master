@@ -15,6 +15,7 @@ from .views import CustomPasswordChangeView
 from .views import CustomPasswordResetConfirmView
 from .views import AjaxCreateView
 from .views import AjaxUpdateView
+from .views import AjaxDeleteView
 
 from .forms import CustomPasswordResetForm
 from .forms import CustomSetPasswordForm
@@ -39,4 +40,5 @@ urlpatterns = [
     ), name='password_reset_complete'),
     path('taskapp/ajax/create/', AjaxCreateView, name='ajax_create'),
     path('taskapp/ajax/update/<int:pk>/', AjaxUpdateView, name='ajax_update'),
+    path('taskapp/ajax/delete/<int:pk>/', AjaxDeleteView, name='ajax-delete'),
 ]
