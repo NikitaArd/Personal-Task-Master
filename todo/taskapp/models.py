@@ -62,6 +62,10 @@ class Task(models.Model):
 
     objects = None
 
+    def __str__(self):
+        # For better orientation between entries in the admin panel
+        return '{} - {}'.format(self.title, self.byUser)
+
     class Meta:
         verbose_name = 'Task'
         verbose_name_plural = 'Tasks'

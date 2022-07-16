@@ -42,7 +42,10 @@
         {% for task in tasks %}
         <div class="item" id="{{ task.pk }}">
             <p class="item-title">{{ task.title }}</p>
-            <button type="submit" class="item-button" value="{{ task.pk }}"></button>
+            <div class="item-interaction">
+                <img src="{% static 'taskapp/style/img/trash.svg' %}" class="item-trash">
+                <button type="submit" class="item-button" value="{{ task.pk }}"></button>
+            </div>
         </div>
         {% endfor %}
     </div>

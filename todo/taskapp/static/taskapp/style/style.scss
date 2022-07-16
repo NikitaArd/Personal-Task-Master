@@ -266,6 +266,25 @@ header {
         background-color: $addButtonColor !important;
     }
 
+    &-trash {
+        width: 29px;
+        height: 29px;
+        opacity: 0;
+        transition: 0.3s;
+    }
+
+    &-interaction {
+        display: flex;
+        width: 80px;
+        justify-content: space-between;
+    }
+
+}
+
+.item:hover{
+    .item-trash{
+        opacity: 1;
+    }
 }
 
 .login {

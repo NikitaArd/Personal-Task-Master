@@ -300,6 +300,28 @@ header {
   background-color: #8AA4BC !important;
 }
 
+.item-trash {
+  width: 29px;
+  height: 29px;
+  opacity: 0;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+.item-interaction {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 80px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.item:hover .item-trash {
+  opacity: 1;
+}
+
 .login {
   width: 550px;
   max-width: 550px;
