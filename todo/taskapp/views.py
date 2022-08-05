@@ -1,6 +1,20 @@
-from django.shortcuts import render
-from django.shortcuts import redirect
+import datetime
 
+from django.contrib.auth import authenticate
+from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.views import PasswordResetConfirmView
+from django.core import serializers
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import ProtectedError
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.shortcuts import render
+from django.utils import timezone
+
+from .decorators import anonymous_required
+from .decorators import is_ajax_request
 from .forms import (
     LoginForm,
     RegistrationForm,
@@ -11,28 +25,23 @@ from .forms import (
 from .models import CustomUser
 from .models import Task
 
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from .forms import CustomPasswordResetForm
+from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes
+from django.contrib import messages
 
+import smtplib
+import os
+from email.mime.text import MIMEText
 
-from django.contrib.auth.views import PasswordChangeView
-from django.contrib.auth.views import PasswordResetConfirmView
+from django.contrib.auth import settings
 
-from django.contrib.auth.decorators import login_required
-
-from .decorators import anonymous_required
-from .decorators import is_ajax_request
-
-from django.http import JsonResponse
-
-from django.core import serializers
-from django.core.exceptions import  ObjectDoesNotExist
-
-from django.db.models import ProtectedError
-
-from django.utils import timezone
-
-import datetime
 
 
 @login_required
@@ -196,3 +205,59 @@ def AjaxDeleteView(request, pk):
         return JsonResponse({}, status=400)
     except ObjectDoesNotExist:
         return redirect('index')
+
+
+def password_reset_request(request):
+    if request.method == "POST":
+        # Set sender email and sender password
+        sender = settings.EMAIL_HOST_USER
+        password = settings.EMAIL_HOST_PASSWORD
+        # Fill out the form
+        password_reset_form = CustomPasswordResetForm(request.POST)
+        # If form is invalid (for ex. emailgmail.com ...)
+        if password_reset_form.is_valid():
+            # Getting email from form
+            email = password_reset_form.cleaned_data['email']
+            # Check if the user with this email exists
+            users = CustomUser.objects.filter(Q(email=email))
+            if users.exists():
+                user = users[0]
+                # Create config for email letter
+                subject = "Password Reset Requested"
+                email_template_name = "auth_templates/reset_email.txt"
+                email_context = {
+                    "email": user.email,
+                    'domain': settings.ALLOWED_HOSTS[0],
+                    'site_name': 'Website',
+                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
+                    'token': default_token_generator.make_token(user),
+                    'protocol': 'http',
+                }
+                email = render_to_string(email_template_name, email_context)
+
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.starttls()
+
+                try:
+                    # Sending email
+                    server.login(sender, password)
+                    msg = MIMEText(email)
+                    msg['Subject'] = subject
+                    server.sendmail(sender, user.email, msg.as_string())
+                    return redirect('password_reset_done')
+                except Exception as e:
+                    return HttpResponse(f'{e}')
+        context = {
+            'form': CustomPasswordResetForm,
+            'title': 'Incorrect e-mail',
+            'isInvalid': 'email',
+        }
+    else:
+        context = {
+            'form': CustomPasswordResetForm,
+            'title': 'Reset password',
+            'isInvalid': '',
+        }
+    return render(request=request, template_name="auth_templates/reset_password.html",
+                  context=context)
+
