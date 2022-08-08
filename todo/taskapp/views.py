@@ -207,6 +207,7 @@ def AjaxDeleteView(request, pk):
         return redirect('index')
 
 
+@anonymous_required('index')
 def password_reset_request(request):
     if request.method == "POST":
         # Set sender email and sender password
