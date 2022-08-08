@@ -1,7 +1,7 @@
 {% extends 'layout/basic.html' %}
 {% load static %}
 
-{% block title %}Test extends page{% endblock title %}
+{% block title %}To Do : {{ user.email }}{% endblock title %}
 
 {% block header %}
 <header>
@@ -17,7 +17,7 @@
                 <a class="dropdown-item smallText" href="{% url 'password_change' %}"><img
                         src="{% static 'taskapp/style/img/change.svg' %}" class="dropdown-img">Change password</a>
                 <hr class="dropdown-divider">
-                <a class="dropdown-item smallText" href="#"><img src="{% static 'taskapp/style/img/github.svg' %}"
+                <a class="dropdown-item smallText" href="https://github.com/NikitaArd/django-to-do"><img src="{% static 'taskapp/style/img/github.svg' %}"
                         class="dropdown-img">Repo of project</a>
             </div>
         </div>

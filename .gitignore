@@ -2,3 +2,4 @@ todo/todo/__pycache__/
 todo/taskapp/__pycache__/
 *.pyc
 db.sqlite3
+.idea
