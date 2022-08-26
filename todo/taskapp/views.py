@@ -25,23 +25,20 @@ from .forms import (
 from .models import CustomUser
 from .models import Task
 
-from django.core.mail import send_mail, BadHeaderError
+
 from django.http import HttpResponse
 from .forms import CustomPasswordResetForm
-from django.contrib.auth.models import User
 from django.template.loader import render_to_string
 from django.db.models.query_utils import Q
 from django.utils.http import urlsafe_base64_encode
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes
-from django.contrib import messages
 
 import smtplib
 import os
 from email.mime.text import MIMEText
 
 from django.contrib.auth import settings
-
 
 
 @login_required
@@ -225,7 +222,7 @@ def password_reset_request(request):
                 user = users[0]
                 # Create config for email letter
                 subject = "Password Reset Requested"
-                email_template_name = "auth_templates/reset_email.txt"
+                email_template_name = "auth_templates/imported-from-beefreeio.html"
                 email_context = {
                     "email": user.email,
                     'domain': settings.ALLOWED_HOSTS[0],
@@ -242,7 +239,7 @@ def password_reset_request(request):
                 try:
                     # Sending email
                     server.login(sender, password)
-                    msg = MIMEText(email)
+                    msg = MIMEText(email, 'html')
                     msg['Subject'] = subject
                     server.sendmail(sender, user.email, msg.as_string())
                     return redirect('password_reset_done')
