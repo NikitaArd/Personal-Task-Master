@@ -24,5 +24,5 @@ urlpatterns = [
     path('social/', include('allauth.urls')),
 ]
 
-if not settings.DEBUG:
-    urlpatterns.append(path('static/<path:path>', serve, {'insecure': True}))
+# if not settings.DEBUG:
+#     urlpatterns.append(path('static/<path:path>', serve, {'insecure': True}))
