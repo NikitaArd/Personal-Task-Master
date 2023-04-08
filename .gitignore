@@ -4,3 +4,4 @@ todo/taskapp/__pycache__/
 db.sqlite3
 .idea
 .env
+venv/
