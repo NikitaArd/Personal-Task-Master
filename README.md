@@ -1,7 +1,7 @@
-# django-to-do
+# Personal Task Master
 
 Link: 
-https://django-to-do-production.up.railway.app
+https://task-master.up.railway.app
 
 </br>
 
