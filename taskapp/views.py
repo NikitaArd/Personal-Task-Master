@@ -26,21 +26,6 @@ from .models import CustomUser
 from .models import Task
 
 
-from django.http import HttpResponse
-from .forms import CustomPasswordResetForm
-from django.template.loader import render_to_string
-from django.db.models.query_utils import Q
-from django.utils.http import urlsafe_base64_encode
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.encoding import force_bytes
-
-import smtplib
-import os
-from email.mime.text import MIMEText
-
-from django.contrib.auth import settings
-
-
 @login_required
 def index(request):
     byUserTasks = Task.objects.filter(byUser=request.user, doneStatus=False)
@@ -202,60 +187,3 @@ def AjaxDeleteView(request, pk):
         return JsonResponse({}, status=400)
     except ObjectDoesNotExist:
         return redirect('index')
-
-
-@anonymous_required('index')
-def password_reset_request(request):
-    if request.method == "POST":
-        # Set sender email and sender password
-        sender = settings.EMAIL_HOST_USER
-        password = settings.EMAIL_HOST_PASSWORD
-        # Fill out the form
-        password_reset_form = CustomPasswordResetForm(request.POST)
-        # If form is invalid (for ex. emailgmail.com ...)
-        if password_reset_form.is_valid():
-            # Getting email from form
-            email = password_reset_form.cleaned_data['email']
-            # Check if the user with this email exists
-            users = CustomUser.objects.filter(Q(email=email))
-            if users.exists():
-                user = users[0]
-                # Create config for email letter
-                subject = "Password Reset Requested"
-                email_template_name = "auth_templates/imported-from-beefreeio.html"
-                email_context = {
-                    "email": user.email,
-                    'domain': settings.ALLOWED_HOSTS[0],
-                    'site_name': 'Website',
-                    "uid": urlsafe_base64_encode(force_bytes(user.pk)),
-                    'token': default_token_generator.make_token(user),
-                    'protocol': 'http',
-                }
-                email = render_to_string(email_template_name, email_context)
-
-                server = smtplib.SMTP('smtp.gmail.com', 587)
-                server.starttls()
-
-                try:
-                    # Sending email
-                    server.login(sender, password)
-                    msg = MIMEText(email, 'html')
-                    msg['Subject'] = subject
-                    server.sendmail(sender, user.email, msg.as_string())
-                    return redirect('password_reset_done')
-                except Exception as e:
-                    return HttpResponse(f'{e}')
-        context = {
-            'form': CustomPasswordResetForm,
-            'title': 'Incorrect e-mail',
-            'isInvalid': 'email',
-        }
-    else:
-        context = {
-            'form': CustomPasswordResetForm,
-            'title': 'Reset password',
-            'isInvalid': '',
-        }
-    return render(request=request, template_name="auth_templates/reset_password.html",
-                  context=context)
-

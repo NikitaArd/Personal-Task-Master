@@ -19,7 +19,6 @@ load_dotenv(find_dotenv())
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
@@ -30,7 +29,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = bool(os.getenv('DEBUG_FLAG'))
 
 ALLOWED_HOSTS = [os.getenv('ALLOWED_HOST')]
-
 
 # Application definition
 
@@ -81,7 +79,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'todo.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -95,7 +92,6 @@ DATABASES = {
         'PORT': os.getenv('PGPORT'),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -144,7 +140,6 @@ LOGIN_URL = 'login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
@@ -155,7 +150,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -170,10 +164,11 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = 'smtp.google.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
 
-ADMIN_LOGIN=os.getenv('ADMIN_LOGIN')
-ADMIN_PASSWORD=os.getenv('ADMIN_PASSWORD')
+ADMIN_LOGIN = os.getenv('ADMIN_LOGIN')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
