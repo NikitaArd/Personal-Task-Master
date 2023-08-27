@@ -1,0 +1,38 @@
+services:
+  app:
+    build: ./task-master
+
+    command: "python manage.py runserver 0.0.0.0:8000"
+
+    volumes:
+      - web-static:/task-master/staticfiles
+    env_file:
+      - .env
+    expose:
+     - 8000
+    links:
+      - postgres
+
+  nginx:
+    build: ./nginx
+
+    ports:
+      - 80:80
+    volumes:
+      - web-static:/www/static
+    links:
+      - app
+
+  postgres:
+    image: postgres:15
+
+    ports:
+      - 5432:5432  
+    environment:
+      - POSTGRES_PASSWORD=${PGPASSWORD}
+    volumes:
+      - task-master-db:/var/lib/postgresql/data
+
+volumes:
+  task-master-db:
+  web-static:
