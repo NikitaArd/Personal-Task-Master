@@ -2,8 +2,11 @@ services:
   app:
     build: ./task-master
 
-    # command: "python manage.py runserver 0.0.0.0:8000"
-    command: gunicorn todo.wsgi:application --bind 0.0.0.0:8000
+    command: sh -c "python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py default_admin &&
+      gunicorn todo.wsgi:application --bind 0.0.0.0:8000 --error-logfile '-'
+      "
 
     volumes:
       - web-static:/task-master/staticfiles
