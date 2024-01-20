@@ -1,45 +1,40 @@
 # Personal Task Master
 
-Link: 
-https://task-master.up.railway.app
+TaskTracker is a convenient online platform for creating, tracking, and managing tasks. Register, add tasks, mark them as completed, and monitor your progress. A simple and intuitive way to boost productivity in your daily life.
 
-</br>
+## 🚦 Project status
 
----
+- [x] Live 🚀 
+  
+- [ ] Completed ✅
+  
+- [ ] Testing 🔎
+  
+- [ ] OnHold ⏸️
+  
+- [ ] In Development 🛠️
+  
+- [ ] Planned 📆
 
-</br>
+## 🖼️ Screenshots/Demo
 
-## Content
+**comming soon...**
 
- - Review
- - Techonologies
+## 💻 Usage
 
-</br>
+Project is available under this URL: *URl Comming Soon*
 
----
+## 🌱 Contribution Guidelines
 
-## <a id='review'></a> Review
+ - If you have suggestions to enhance the project, I welcome your ideas. Open a new issue or submit a pull request.
+  
+ - Found a bug ? Please create a new issue and share the details so that I can fix it as soon as possible.
+  
+## 📄 License
 
-This is my First Project with Django Python.
+Information about **license** you can find in appropriate <u style="color: lightblue">[file](LICENSE)</u>.
 
-You can create an account and write your own to do list.
-You can also reset password if you forgot it or change it to a more secure.
+## 🧑‍🎨 Author
 
-It uses Django with PostgreSQL on server side and HTML/CSS with vanilla JS on client side, and AJAX requests on main page to ensure seamless communication between client and server.
-
-</br>
-
----
-
-</br>
-
-## <a id='libs'></a> Libraries
-
-| Nazwa               | Wersja |
-|---------------------|--------|
-| Django              | 4.0.5  |
-| psycopg2-binary     | 2.9.6  |
-| python-dotenv       | 0.20.0 |
-| gunicorn            | 20.1.0 |
-| django-widget-tweaks | 1.4.12 |
-| django-allauth      | 0.51.0 |
+Nikita Smolenskyi                  
+smolenskyi.nikita@gmail.com
