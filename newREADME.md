@@ -32,9 +32,7 @@ Project is available under this URL: *URl Comming Soon*
   
 ## 📄 License
 
-Information about **license** you can find in appropriate file.
-
-**License file comming soon...**
+Information about **license** you can find in appropriate <u style="color: lightblue">[file](LICENSE)</u>.
 
 ## 🧑‍🎨 Author
 
