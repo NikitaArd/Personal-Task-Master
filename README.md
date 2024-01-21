@@ -22,7 +22,7 @@ TaskTracker is a convenient online platform for creating, tracking, and managing
 
 ## 💻 Usage
 
-Project is available under this URL: *URl Comming Soon*
+Access the project at the following URL: *URl Comming Soon*
 
 ## 🌱 Contribution Guidelines
 
