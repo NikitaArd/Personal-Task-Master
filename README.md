@@ -1,6 +1,6 @@
 # Personal Task Master
 
-TaskTracker is a convenient online platform for creating, tracking, and managing tasks. Register, add tasks, mark them as completed, and monitor your progress. A simple and intuitive way to boost productivity in your daily life.
+Personal Task Master is a convenient online platform for creating, tracking, and managing tasks. Register, add tasks, mark them as completed, and monitor your progress. A simple and intuitive way to boost productivity in your daily life.
 
 ## 🚦 Project status
 
@@ -18,7 +18,7 @@ TaskTracker is a convenient online platform for creating, tracking, and managing
 
 ## 🖼️ Screenshots/Demo
 
-**comming soon...**
+![Gif preview](README_static/demo.gif)
 
 ## 💻 Usage
 
