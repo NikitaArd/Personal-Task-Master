@@ -22,7 +22,7 @@ Personal Task Master is a convenient online platform for creating, tracking, and
 
 ## 💻 Usage
 
-Access the project at the following URL: [taskmaster.nikita-smolenskyi.pl](https://taskmaster.nikita-smolenskyi.pl)
+Access the project at the following URL: [taskmaster.nikita-smolenskyi.pl](http://taskmaster.nikita-smolenskyi.pl)
 
 ## 🌱 Contribution Guidelines
 
